@@ -124,6 +124,9 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         await _caughtPokemonService.EnsureLoadedAsync();
         foreach (var species in _allPokemonItems)
         {
+            // -= before += guarantees a single subscription even if OnNavigatedTo runs again
+            // on this singleton view model with the cached species instances.
+            species.PropertyChanged -= OnSpeciesPropertyChanged;
             species.IsCaught = _caughtPokemonService.IsCaught(species.Id);
             species.PropertyChanged += OnSpeciesPropertyChanged;
         }
