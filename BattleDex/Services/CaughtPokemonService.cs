@@ -8,6 +8,7 @@ public class CaughtPokemonService : ICaughtPokemonService
 
     private readonly ILocalSettingsService _localSettingsService;
     private readonly Task _initTask;
+    private readonly SemaphoreSlim _writeGate = new(1, 1);
 
     private HashSet<int> _caughtIds = new();
 
@@ -27,10 +28,20 @@ public class CaughtPokemonService : ICaughtPokemonService
         // ahead of the load would persist an empty set and wipe saved IDs.
         await _initTask;
 
-        var changed = caught ? _caughtIds.Add(id) : _caughtIds.Remove(id);
-        if (changed)
+        // Serialize mutation + save so rapid fire-and-forget toggles can't
+        // interleave HashSet writes or race file saves in LocalSettingsService.
+        await _writeGate.WaitAsync();
+        try
         {
-            await _localSettingsService.SaveSettingAsync(CaughtPokemonKey, _caughtIds.ToList());
+            var changed = caught ? _caughtIds.Add(id) : _caughtIds.Remove(id);
+            if (changed)
+            {
+                await _localSettingsService.SaveSettingAsync(CaughtPokemonKey, _caughtIds.ToList());
+            }
+        }
+        finally
+        {
+            _writeGate.Release();
         }
     }
 
