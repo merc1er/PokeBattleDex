@@ -44,6 +44,17 @@
                     BorderThickness="0"
                     IsChecked="{x:Bind IsShiny, Mode=TwoWay}"
                     ToolTipService.ToolTip="Toggle shiny sprite">
+                    <ToggleButton.Resources>
+                        <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="Transparent" />
+                        <StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+                        <StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+                        <StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="AccentFillColorDefaultBrush" />
+                        <StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="AccentFillColorDefaultBrush" />
+                        <StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="AccentFillColorSecondaryBrush" />
+                        <SolidColorBrush x:Key="ToggleButtonBorderBrushChecked" Color="Transparent" />
+                        <SolidColorBrush x:Key="ToggleButtonBorderBrushCheckedPointerOver" Color="Transparent" />
+                        <SolidColorBrush x:Key="ToggleButtonBorderBrushCheckedPressed" Color="Transparent" />
+                    </ToggleButton.Resources>
                     <PathIcon
                         Width="14"
                         Height="14"
