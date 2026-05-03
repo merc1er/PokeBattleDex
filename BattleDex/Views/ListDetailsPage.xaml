@@ -1,5 +1,6 @@
 <Page
     x:Class="BattleDex.Views.ListDetailsPage"
+    x:Name="PageRoot"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -20,18 +21,27 @@
             <Grid Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Image
+                <CheckBox
                     Grid.Column="0"
+                    MinWidth="0"
+                    Margin="0,0,4,0"
+                    VerticalAlignment="Center"
+                    IsChecked="{x:Bind IsCaught, Mode=TwoWay}"
+                    Visibility="{Binding ViewModel.CaughtColumnVisibility, ElementName=PageRoot, Mode=OneWay}"
+                    ToolTipService.ToolTip="Mark as caught" />
+                <Image
+                    Grid.Column="1"
                     Width="48"
                     Height="48"
                     VerticalAlignment="Center"
                     Source="{x:Bind SpriteUri}"
                     Stretch="Uniform" />
                 <StackPanel
-                    Grid.Column="1"
+                    Grid.Column="2"
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center">
                     <TextBlock Text="{x:Bind NameEnglish}" Style="{StaticResource ListTitleStyle}" />
@@ -58,7 +68,7 @@
                     </ItemsControl>
                 </StackPanel>
                 <TextBlock
-                    Grid.Column="2"
+                    Grid.Column="3"
                     VerticalAlignment="Center"
                     Margin="8,0,4,0"
                     Text="{x:Bind IdDisplay}"

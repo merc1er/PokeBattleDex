@@ -34,7 +34,7 @@
             Grid.Row="1"
             PaneDisplayMode="Top"
             IsBackButtonVisible="Collapsed"
-            IsSettingsVisible="False"
+            IsSettingsVisible="True"
             ItemInvoked="NavigationView_ItemInvoked">
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Uid="ShellNavItem_Pokedex" Tag="BattleDex.ViewModels.ListDetailsViewModel">

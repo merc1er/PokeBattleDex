@@ -65,6 +65,8 @@ public partial class App : Application
 
             // Services
             services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
+            services.AddSingleton<ICaughtPokemonService, CaughtPokemonService>();
+            services.AddSingleton<IAppSettingsService, AppSettingsService>();
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
@@ -78,6 +80,8 @@ public partial class App : Application
             services.AddTransient<ListDetailsPage>();
             services.AddTransient<TypeChartViewModel>();
             services.AddTransient<TypeChartPage>();
+            services.AddTransient<SettingsViewModel>();
+            services.AddTransient<SettingsPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
 

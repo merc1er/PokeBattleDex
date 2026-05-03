@@ -130,4 +130,13 @@ You can also open an issue on GitHub.</value>
   <data name="ListDetails_NoSelection.Text" xml:space="preserve">
     <value>Select an item from the list.</value>
   </data>
+  <data name="Settings_Title.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_PokedexHeader.Text" xml:space="preserve">
+    <value>Pokédex</value>
+  </data>
+  <data name="Settings_ShowCaughtColumn.Header" xml:space="preserve">
+    <value>Show "caught" checkbox in the Pokédex list</value>
+  </data>
 </root>

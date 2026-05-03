@@ -4,6 +4,8 @@ using System.Text;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
+using Microsoft.UI.Xaml;
+
 using BattleDex.Contracts.Services;
 using BattleDex.Contracts.ViewModels;
 using BattleDex.Core.Contracts.Services;
@@ -18,7 +20,11 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
     private const string SelectedDexTypeKey = "SelectedDexType";
     private readonly ISampleDataService _sampleDataService;
     private readonly ILocalSettingsService _localSettingsService;
+    private readonly ICaughtPokemonService _caughtPokemonService;
+    private readonly IAppSettingsService _appSettingsService;
     private readonly int _itemsPerPage = 25;
+
+    public Visibility CaughtColumnVisibility => _appSettingsService.ShowCaughtColumn ? Visibility.Visible : Visibility.Collapsed;
 
     [ObservableProperty]
     public partial PokemonSpecies? Selected
@@ -75,10 +81,18 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
     // Keep for backwards compatibility
     public ObservableCollection<PokemonSpecies> PokemonItems => FilteredPokemonItems;
 
-    public ListDetailsViewModel(ISampleDataService sampleDataService, ILocalSettingsService localSettingsService)
+    public ListDetailsViewModel(ISampleDataService sampleDataService, ILocalSettingsService localSettingsService, ICaughtPokemonService caughtPokemonService, IAppSettingsService appSettingsService)
     {
         _sampleDataService = sampleDataService;
         _localSettingsService = localSettingsService;
+        _caughtPokemonService = caughtPokemonService;
+        _appSettingsService = appSettingsService;
+        _appSettingsService.SettingsChanged += OnAppSettingsChanged;
+    }
+
+    private void OnAppSettingsChanged(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(CaughtColumnVisibility));
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -107,7 +121,25 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         _regionalDex = await Task.Run(() => _sampleDataService.GetRegionalDexAsync());
         _regionalDexSets = _regionalDex.ToDictionary(kv => kv.Key, kv => new HashSet<int>(kv.Value));
 
+        await _caughtPokemonService.EnsureLoadedAsync();
+        foreach (var species in _allPokemonItems)
+        {
+            species.IsCaught = _caughtPokemonService.IsCaught(species.Id);
+            species.PropertyChanged += OnSpeciesPropertyChanged;
+        }
+
+        await _appSettingsService.EnsureLoadedAsync();
+        OnPropertyChanged(nameof(CaughtColumnVisibility));
+
         ApplyFilter();
+    }
+
+    private void OnSpeciesPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(PokemonSpecies.IsCaught) && sender is PokemonSpecies species)
+        {
+            _ = _caughtPokemonService.SetCaughtAsync(species.Id, species.IsCaught);
+        }
     }
 
     partial void OnSelectedGenerationChanged(GenerationChart value)
