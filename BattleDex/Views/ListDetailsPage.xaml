@@ -27,13 +27,13 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <CheckBox
+                    x:Uid="ListDetails_CaughtCheckBox"
                     Grid.Column="0"
                     MinWidth="0"
                     Margin="0,0,4,0"
                     VerticalAlignment="Center"
                     IsChecked="{x:Bind IsCaught, Mode=TwoWay}"
-                    Visibility="{Binding ViewModel.CaughtColumnVisibility, ElementName=PageRoot, Mode=OneWay}"
-                    ToolTipService.ToolTip="Mark as caught" />
+                    Visibility="{Binding ViewModel.CaughtColumnVisibility, ElementName=PageRoot, Mode=OneWay}" />
                 <Image
                     Grid.Column="1"
                     Width="48"
