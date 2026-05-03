@@ -10,6 +10,7 @@
     xmlns:views="using:BattleDex.Views"
     xmlns:helpers="using:BattleDex.Helpers"
     mc:Ignorable="d"
+    NavigationCacheMode="Required"
     KeyboardAcceleratorPlacementMode="Hidden">
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator Key="F" Modifiers="Control" Invoked="SearchAccelerator_Invoked" />

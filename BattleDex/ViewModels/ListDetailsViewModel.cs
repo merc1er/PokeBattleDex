@@ -39,6 +39,7 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
     public partial DexType SelectedDexType { get; set; } = DexType.National;
 
     private bool _settingsLoaded;
+    private bool _dataLoaded;
 
     public int SelectedGenerationIndex
     {
@@ -97,6 +98,11 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
 
     public async void OnNavigatedTo(object parameter)
     {
+        if (_dataLoaded)
+        {
+            return;
+        }
+
         // Restore persisted settings
         var savedGen = await _localSettingsService.ReadSettingAsync<int?>(SelectedGenerationKey);
         if (savedGen.HasValue && Enum.IsDefined(typeof(GenerationChart), savedGen.Value))
@@ -124,9 +130,6 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         await _caughtPokemonService.EnsureLoadedAsync();
         foreach (var species in _allPokemonItems)
         {
-            // -= before += guarantees a single subscription even if OnNavigatedTo runs again
-            // on this singleton view model with the cached species instances.
-            species.PropertyChanged -= OnSpeciesPropertyChanged;
             species.IsCaught = _caughtPokemonService.IsCaught(species.Id);
             species.PropertyChanged += OnSpeciesPropertyChanged;
         }
@@ -135,6 +138,7 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         OnPropertyChanged(nameof(CaughtColumnVisibility));
 
         ApplyFilter();
+        _dataLoaded = true;
     }
 
     private void OnSpeciesPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
