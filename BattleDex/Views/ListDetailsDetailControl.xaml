@@ -23,6 +23,7 @@
             <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Image
@@ -30,10 +31,37 @@
                     Width="96"
                     Height="96"
                     VerticalAlignment="Center"
-                    Source="{x:Bind ListDetailsMenuItem.SpriteUri, Mode=OneWay}"
+                    Source="{x:Bind DisplayedSpriteUri, Mode=OneWay}"
                     Stretch="Uniform" />
-                <StackPanel
+                <ToggleButton
                     Grid.Column="1"
+                    Width="32"
+                    Height="32"
+                    Padding="0"
+                    Margin="4,0,0,0"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    IsChecked="{x:Bind IsShiny, Mode=TwoWay}"
+                    ToolTipService.ToolTip="Toggle shiny sprite">
+                    <ToggleButton.Resources>
+                        <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="Transparent" />
+                        <StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+                        <StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+                        <StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="AccentFillColorDefaultBrush" />
+                        <StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="AccentFillColorDefaultBrush" />
+                        <StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="AccentFillColorSecondaryBrush" />
+                        <SolidColorBrush x:Key="ToggleButtonBorderBrushChecked" Color="Transparent" />
+                        <SolidColorBrush x:Key="ToggleButtonBorderBrushCheckedPointerOver" Color="Transparent" />
+                        <SolidColorBrush x:Key="ToggleButtonBorderBrushCheckedPressed" Color="Transparent" />
+                    </ToggleButton.Resources>
+                    <PathIcon
+                        Width="14"
+                        Height="14"
+                        Data="M7,3 Q7,8 12,8 Q7,8 7,13 Q7,8 2,8 Q7,8 7,3 Z M11.5,1.5 Q11.5,3 13,3 Q11.5,3 11.5,4.5 Q11.5,3 10,3 Q11.5,3 11.5,1.5 Z" />
+                </ToggleButton>
+                <StackPanel
+                    Grid.Column="2"
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">

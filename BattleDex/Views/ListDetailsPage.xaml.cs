@@ -47,7 +47,12 @@ public sealed partial class ListDetailsPage : Page
 
     private void ListDetailsViewControl_GotFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        // Keep focus on search box when there's active search text
+        // Don't steal focus from a control the user clicked — only redirect
+        // when focus moved programmatically (e.g. ListView re-selecting after a filter change).
+        if (e.OriginalSource is Control { FocusState: Microsoft.UI.Xaml.FocusState.Pointer })
+        {
+            return;
+        }
         if (!string.IsNullOrEmpty(ViewModel.SearchText))
         {
             SearchBox.Focus(Microsoft.UI.Xaml.FocusState.Programmatic);

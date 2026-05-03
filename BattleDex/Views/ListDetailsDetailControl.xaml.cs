@@ -26,7 +26,20 @@ public sealed partial class ListDetailsDetailControl : UserControl
             ? Visibility.Visible
             : Visibility.Collapsed;
 
+    public bool IsShiny
+    {
+        get => (bool)GetValue(IsShinyProperty);
+        set => SetValue(IsShinyProperty, value);
+    }
+
+    public string DisplayedSpriteUri =>
+        ListDetailsMenuItem is { } item
+            ? (IsShiny ? item.ShinySpriteUri : item.SpriteUri)
+            : string.Empty;
+
     public static readonly DependencyProperty ListDetailsMenuItemProperty = DependencyProperty.Register("ListDetailsMenuItem", typeof(PokemonSpecies), typeof(ListDetailsDetailControl), new PropertyMetadata(null, OnListDetailsMenuItemPropertyChanged));
+
+    public static readonly DependencyProperty IsShinyProperty = DependencyProperty.Register("IsShiny", typeof(bool), typeof(ListDetailsDetailControl), new PropertyMetadata(false, OnIsShinyPropertyChanged));
 
     public ListDetailsDetailControl()
     {
@@ -71,8 +84,17 @@ public sealed partial class ListDetailsDetailControl : UserControl
         if (d is ListDetailsDetailControl control)
         {
             control.ForegroundElement.ChangeView(0, 0, 1);
+            control.IsShiny = false;
             control.Bindings.Update();
             control.UpdateMatchupBindings();
+        }
+    }
+
+    private static void OnIsShinyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is ListDetailsDetailControl control)
+        {
+            control.Bindings.Update();
         }
     }
 }

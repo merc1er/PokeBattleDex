@@ -198,6 +198,22 @@ public class PokemonSpecies
             return new Uri(filePath).AbsoluteUri;
         }
     }
+
+    /// <summary>
+    /// Gets the file path for the Pokémon's shiny sprite image.
+    /// </summary>
+    public string ShinySpriteUri
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(SpriteBasePath))
+            {
+                return string.Empty;
+            }
+            var filePath = Path.Combine(SpriteBasePath, "Assets", "Sprites", "Pokemon", "Shiny", $"{Id}.png");
+            return new Uri(filePath).AbsoluteUri;
+        }
+    }
     public string TypesDisplay => string.Join(", ", Types);
 
     /// <summary>
