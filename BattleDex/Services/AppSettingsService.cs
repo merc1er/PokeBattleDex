@@ -11,7 +11,7 @@ public class AppSettingsService : IAppSettingsService
     private readonly SemaphoreSlim _writeGate = new(1, 1);
 
     private bool _showCaughtColumn = true;
-    private bool _loaded;
+    private volatile bool _loaded;
 
     public event EventHandler? SettingsChanged;
 

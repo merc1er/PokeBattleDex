@@ -88,7 +88,6 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         _localSettingsService = localSettingsService;
         _caughtPokemonService = caughtPokemonService;
         _appSettingsService = appSettingsService;
-        _appSettingsService.SettingsChanged += OnAppSettingsChanged;
     }
 
     private void OnAppSettingsChanged(object? sender, EventArgs e)
@@ -98,6 +97,8 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
 
     public async void OnNavigatedTo(object parameter)
     {
+        _appSettingsService.SettingsChanged += OnAppSettingsChanged;
+
         if (_dataLoaded)
         {
             return;
@@ -141,11 +142,11 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         _dataLoaded = true;
     }
 
-    private void OnSpeciesPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    private async void OnSpeciesPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(PokemonSpecies.IsCaught) && sender is PokemonSpecies species)
         {
-            _ = _caughtPokemonService.SetCaughtAsync(species.Id, species.IsCaught);
+            await _caughtPokemonService.SetCaughtAsync(species.Id, species.IsCaught);
         }
     }
 
@@ -181,6 +182,7 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
 
     public void OnNavigatedFrom()
     {
+        _appSettingsService.SettingsChanged -= OnAppSettingsChanged;
     }
 
     public void EnsureItemSelected()

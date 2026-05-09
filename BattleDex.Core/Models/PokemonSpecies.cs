@@ -1,3 +1,4 @@
+#nullable enable
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -8,14 +9,12 @@ namespace BattleDex.Core.Models;
 /// </summary>
 public class PokemonSpecies : INotifyPropertyChanged
 {
-#nullable enable
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-#nullable disable
 
     private bool _isCaught;
 
