@@ -1,10 +1,39 @@
+#nullable enable
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace BattleDex.Core.Models;
 
 /// <summary>
 /// Represents a Pokémon species.
 /// </summary>
-public class PokemonSpecies
+public class PokemonSpecies : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private bool _isCaught;
+
+    /// <summary>
+    /// Whether the user has marked this Pokémon as caught.
+    /// </summary>
+    public bool IsCaught
+    {
+        get => _isCaught;
+        set
+        {
+            if (_isCaught != value)
+            {
+                _isCaught = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     /// <summary>
     /// The species name (e.g., "bulbasaur").
     /// </summary>

@@ -85,6 +85,12 @@ public sealed partial class ShellPage : Page
 
     private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
+        if (args.IsSettingsInvoked)
+        {
+            ViewModel.NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
+            return;
+        }
+
         if (args.InvokedItemContainer is NavigationViewItem item && item.Tag is string tag)
         {
             ViewModel.NavigationService.NavigateTo(tag);
@@ -94,6 +100,13 @@ public sealed partial class ShellPage : Page
     private void OnNavigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
     {
         var pageService = App.GetService<IPageService>();
+
+        if (pageService.GetPageType(typeof(SettingsViewModel).FullName!) == e.SourcePageType)
+        {
+            NavigationViewControl.SelectedItem = NavigationViewControl.SettingsItem;
+            return;
+        }
+
         foreach (var menuItem in NavigationViewControl.MenuItems.OfType<NavigationViewItem>())
         {
             if (menuItem.Tag is string tag && pageService.GetPageType(tag) == e.SourcePageType)
