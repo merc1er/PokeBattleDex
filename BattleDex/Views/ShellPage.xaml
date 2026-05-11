@@ -47,6 +47,11 @@
                         <SymbolIcon Symbol="ViewAll" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem x:Uid="ShellNavItem_Natures" Tag="BattleDex.ViewModels.NaturesViewModel">
+                    <NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Sort" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <Grid Margin="{StaticResource MenuBarContentMargin}">
                 <Frame x:Name="NavigationFrame" />

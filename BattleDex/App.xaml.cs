@@ -80,6 +80,8 @@ public partial class App : Application
             services.AddTransient<ListDetailsPage>();
             services.AddTransient<TypeChartViewModel>();
             services.AddTransient<TypeChartPage>();
+            services.AddTransient<NaturesViewModel>();
+            services.AddTransient<NaturesPage>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<ShellPage>();
