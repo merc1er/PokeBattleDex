@@ -22,14 +22,17 @@
                 Grid.Column="0"
                 Style="{ThemeResource SubtitleTextBlockStyle}"
                 VerticalAlignment="Center" />
-            <TextBox
+            <AutoSuggestBox
                 x:Name="SearchBox"
                 x:Uid="Natures_SearchBox"
                 Grid.Column="1"
                 Width="200"
                 Height="40"
                 Margin="16,0,0,0"
+                Padding="12,0,12,0"
                 VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                QueryIcon="Find"
                 TextChanged="SearchBox_TextChanged" />
         </Grid>
 

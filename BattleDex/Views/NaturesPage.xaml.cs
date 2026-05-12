@@ -29,8 +29,8 @@ public sealed partial class NaturesPage : Page
         ("Natures_ColFrench".GetLocalized(),        108),
         ("Natures_ColGerman".GetLocalized(),        108),
         ("Natures_ColJapanese".GetLocalized(),       90),
-        ("Natures_ColIncreasedStat".GetLocalized(),  68),
-        ("Natures_ColDecreasedStat".GetLocalized(),  68),
+        ("Natures_ColIncreasedStat".GetLocalized(),  90),
+        ("Natures_ColDecreasedStat".GetLocalized(),  90),
     ];
 
     public NaturesViewModel ViewModel { get; }
@@ -42,9 +42,9 @@ public sealed partial class NaturesPage : Page
         Loaded += (_, _) => BuildTable(filter: string.Empty);
     }
 
-    private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+    private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
-        BuildTable(SearchBox.Text);
+        BuildTable(sender.Text);
     }
 
     private void BuildTable(string filter)
@@ -144,13 +144,13 @@ public sealed partial class NaturesPage : Page
         {
             bg = IncreasedBg;
             fg = Colors.White;
-            text = "+" + stat;
+            text = "+10% " + stat;
         }
         else
         {
             bg = DecreasedBg;
             fg = Colors.White;
-            text = "−" + stat;
+            text = "−10% " + stat;
         }
 
         var tb = new TextBlock
