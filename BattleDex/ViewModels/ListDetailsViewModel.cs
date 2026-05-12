@@ -40,6 +40,7 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
 
     private bool _settingsLoaded;
     private bool _dataLoaded;
+    private bool _lastKnownShowCaughtColumn;
 
     public int SelectedGenerationIndex
     {
@@ -88,19 +89,24 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         _localSettingsService = localSettingsService;
         _caughtPokemonService = caughtPokemonService;
         _appSettingsService = appSettingsService;
+        _appSettingsService.SettingsChanged += OnAppSettingsChanged;
     }
 
     private void OnAppSettingsChanged(object? sender, EventArgs e)
     {
+        _lastKnownShowCaughtColumn = _appSettingsService.ShowCaughtColumn;
         OnPropertyChanged(nameof(CaughtColumnVisibility));
     }
 
     public async void OnNavigatedTo(object parameter)
     {
-        _appSettingsService.SettingsChanged += OnAppSettingsChanged;
-
         if (_dataLoaded)
         {
+            if (_lastKnownShowCaughtColumn != _appSettingsService.ShowCaughtColumn)
+            {
+                _lastKnownShowCaughtColumn = _appSettingsService.ShowCaughtColumn;
+                OnPropertyChanged(nameof(CaughtColumnVisibility));
+            }
             return;
         }
 
@@ -136,6 +142,7 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         }
 
         await _appSettingsService.EnsureLoadedAsync();
+        _lastKnownShowCaughtColumn = _appSettingsService.ShowCaughtColumn;
         OnPropertyChanged(nameof(CaughtColumnVisibility));
 
         ApplyFilter();
@@ -182,7 +189,6 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
 
     public void OnNavigatedFrom()
     {
-        _appSettingsService.SettingsChanged -= OnAppSettingsChanged;
     }
 
     public void EnsureItemSelected()
