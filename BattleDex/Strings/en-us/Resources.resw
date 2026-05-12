@@ -136,6 +136,33 @@ You can also open an issue on GitHub.</value>
   <data name="ListDetails_CaughtCheckBox.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Mark as caught</value>
   </data>
+  <data name="ShellNavItem_Natures.Content" xml:space="preserve">
+    <value>Natures</value>
+  </data>
+  <data name="Natures_Title.Text" xml:space="preserve">
+    <value>Natures</value>
+  </data>
+  <data name="Natures_SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Natures_ColEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Natures_ColFrench" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Natures_ColGerman" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="Natures_ColJapanese" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="Natures_ColIncreasedStat" xml:space="preserve">
+    <value>+Stat</value>
+  </data>
+  <data name="Natures_ColDecreasedStat" xml:space="preserve">
+    <value>−Stat</value>
+  </data>
   <data name="Settings_Title.Text" xml:space="preserve">
     <value>Settings</value>
   </data>

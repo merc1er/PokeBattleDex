@@ -16,6 +16,7 @@ public class PageService : IPageService
     {
         Configure<ListDetailsViewModel, ListDetailsPage>();
         Configure<TypeChartViewModel, TypeChartPage>();
+        Configure<NaturesViewModel, NaturesPage>();
         Configure<SettingsViewModel, SettingsPage>();
     }
 
