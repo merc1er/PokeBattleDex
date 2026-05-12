@@ -52,7 +52,7 @@ Licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE).
 
 This project is not licensed by Game Freak or The Pokemon Company and is provided for
 informational use only. It is a free fan project that does not generate revenue and does
-not include ROMs or other game files. All rights to Pokemon names, and sprites belong
+not include ROMs or other game files. All rights to Pokémon names, and sprites belong
 to their respective owners.
 
 Pokémon sprites provided by [PokéAPI](https://github.com/PokeAPI/sprites).
