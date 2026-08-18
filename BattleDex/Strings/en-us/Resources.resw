@@ -172,4 +172,7 @@ You can also open an issue on GitHub.</value>
   <data name="Settings_ShowCaughtColumn.Header" xml:space="preserve">
     <value>Show "caught" checkbox in the Pokédex list</value>
   </data>
+  <data name="ListDetails_CaughtCount" xml:space="preserve">
+    <value>{0} / {1} caught</value>
+  </data>
 </root>
