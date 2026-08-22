@@ -26,6 +26,17 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
 
     public Visibility CaughtColumnVisibility => _appSettingsService.ShowCaughtColumn ? Visibility.Visible : Visibility.Collapsed;
 
+    private int _caughtCount;
+    private int _dexTotalCount;
+
+    /// <summary>
+    /// Number of caught Pokémon out of those in the selected dex (generation + dex type),
+    /// ignoring the current search text.
+    /// </summary>
+    public string CaughtCountDisplay => _dexTotalCount == 0
+        ? string.Empty
+        : string.Format(CultureInfo.CurrentCulture, "ListDetails_CaughtCount".GetLocalized(), _caughtCount, _dexTotalCount);
+
     [ObservableProperty]
     public partial PokemonSpecies? Selected
     {
@@ -153,6 +164,7 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
     {
         if (e.PropertyName == nameof(PokemonSpecies.IsCaught) && sender is PokemonSpecies species)
         {
+            UpdateCaughtCount();
             await _caughtPokemonService.SetCaughtAsync(species.Id, species.IsCaught);
         }
     }
@@ -269,6 +281,57 @@ public partial class ListDetailsViewModel : ObservableRecipient, INavigationAwar
         {
             Selected = FilteredPokemonItems[0];
         }
+
+        UpdateCaughtCount();
+    }
+
+    /// <summary>
+    /// Recomputes how many of the currently selected dex's Pokémon are marked as caught.
+    /// </summary>
+    private void UpdateCaughtCount()
+    {
+        var maxGen = MaxGenerationNumber;
+        var caught = 0;
+        var total = 0;
+
+        if (SelectedDexType == DexType.Regional && _regionalDex.TryGetValue(maxGen, out var regionalIds))
+        {
+            foreach (var id in regionalIds)
+            {
+                if (_speciesById.TryGetValue(id, out var species))
+                {
+                    total++;
+                    if (species.IsCaught)
+                    {
+                        caught++;
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (var species in _allPokemonItems)
+            {
+                if (species.Generation > maxGen)
+                {
+                    continue;
+                }
+                total++;
+                if (species.IsCaught)
+                {
+                    caught++;
+                }
+            }
+        }
+
+        if (caught == _caughtCount && total == _dexTotalCount)
+        {
+            return;
+        }
+
+        _caughtCount = caught;
+        _dexTotalCount = total;
+        OnPropertyChanged(nameof(CaughtCountDisplay));
     }
 
     /// <summary>

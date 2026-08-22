@@ -116,6 +116,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <AutoSuggestBox
                 x:Name="SearchBox"
@@ -155,6 +156,14 @@
                 <ComboBoxItem x:Uid="ListDetails_DexTypeNational" />
                 <ComboBoxItem x:Uid="ListDetails_DexTypeRegional" />
             </ComboBox>
+            <TextBlock
+                Grid.Column="3"
+                Margin="12,0,4,0"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="{x:Bind ViewModel.CaughtCountDisplay, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.CaughtColumnVisibility, Mode=OneWay}" />
         </Grid>
 
         <controls:ListDetailsView
